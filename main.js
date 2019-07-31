@@ -1,8 +1,13 @@
 $(document).ready(function () {
+
+  //setto la lingua di moment in italiano
   moment.locale("it");
 
   //il mese di default è Gennaio
   var defaultMonth = 0;
+
+  //conservo il mese in cui mi trovo attualmente
+  var currentMonth = defaultMonth;
 
   //url API
   var APIFestivita = "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=";
@@ -14,51 +19,61 @@ $(document).ready(function () {
 
   var festivita;
 
+  populateList(defaultMonth);
 
-  for (var i = 1; i <= moment("2018-01").daysInMonth(); i++) {
+  //funzione per popolare il calendario in base al mese (0-11)
+  function populateList(month) {
 
-    //console.log(moment("2018-01-"+i).format("dddd D MMMM"));
-    context = {
-      day: moment("2018-01-" + i).format("dddd D"),
-      data: moment("2018-01-" + i).format("YYYY[-]MM[-]DD")
+    //aggiungo +1 al mese, perché la API è in base 0
+    var gregorianMonth = month + 1
+
+    var yearMonth = "2018-" + gregorianMonth;
+
+
+    $("#month-label").text(moment(yearMonth).format("MMMM YYYY"));
+
+    for (var i = 1; i <= moment(yearMonth).daysInMonth(); i++) {
+
+
+      context = {
+        day: moment(yearMonth + "-" + i).format("dddd D"),
+        data: moment(yearMonth + "-" + i).format("YYYY[-]MM[-]DD")
+      }
+
+      //inserisco i giorni in lista
+      $("#days-list").append(hDaysTemplate(context));
     }
 
-    $("#days-list").append(hDaysTemplate(context));
+    //chiamo la api per segnare i giorni festivi
+    $.ajax({
+      url: APIFestivita + month,
+      method: "GET",
+      success: function (data) {
 
+        if (data.success) {
+
+          festivita = data.response;
+          markTheDates(festivita);
+        }
+
+      },
+      error: function (err) {
+        console.log(err);
+      }
+
+    })
   }
 
 
-  $.ajax({
-    url: APIFestivita += 0,
-    method: "GET",
-    success: function (data) {
 
-      if (data.success) {
-
-        festivita = data.response;
-        markTheDates(festivita);
-      }
-
-    },
-    error: function (err) {
-      console.log(err);
-    }
-
-
-
-  })
-
+  //funzione per segnare i giorni festivi
   function markTheDates(arr) {
-    
     if (arr) {
-        
       for (var i = 0; i < arr.length; i++) {
-        
 
         $(".day").each(function () {
-          //console.log($(this).attr("data-calendario"), arr[i].date )
 
-          if ($(this).attr("data-calendario") === arr[i].date){
+          if ($(this).attr("data-calendario") === arr[i].date) {
             console.log(true)
             $(this).addClass("red");
             var calendarDay = $(this).text();
@@ -66,7 +81,7 @@ $(document).ready(function () {
             $(this).text(calendarDay);
           }
 
-    });
+        });
       }
     }
 
@@ -74,7 +89,32 @@ $(document).ready(function () {
 
 
 
+  $("#next").on("click", function () {
 
+    if (currentMonth < 11) {
+      currentMonth++;
+
+      $("#days-list").empty();
+
+      populateList(currentMonth);
+
+    }
+
+
+  });
+
+  $("#prev").on("click", function () {
+
+    if (currentMonth > 0) {
+      currentMonth--;
+
+      $("#days-list").empty();
+
+      populateList(currentMonth);
+
+    }
+
+  });
 
 
 

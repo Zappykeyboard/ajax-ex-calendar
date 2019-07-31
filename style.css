@@ -1,3 +1,23 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1{
+  text-align: center;
+}
+
+#container{
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+} 
 .red{
   color: red;
+}
+
+#prev, #next {
+  font-size: 3rem;
 }
