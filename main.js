@@ -40,9 +40,13 @@ $(document).ready(function () {
         data: moment(yearMonth + "-" + i).format("YYYY[-]MM[-]DD")
       }
 
+      //nascondo la lista per motivi estetici, prima  di mostrare le festivita
+      $("#days-list").hide();
+
       //inserisco i giorni in lista
       $("#days-list").append(hDaysTemplate(context));
-    }
+      
+    } 
 
     //chiamo la api per segnare i giorni festivi
     $.ajax({
@@ -54,6 +58,9 @@ $(document).ready(function () {
 
           festivita = data.response;
           markTheDates(festivita);
+
+
+          $("#days-list").show();
         }
 
       },
