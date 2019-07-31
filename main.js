@@ -81,8 +81,10 @@ $(document).ready(function () {
         $(".day").each(function () {
 
           if ($(this).attr("data-calendario") === arr[i].date) {
-            console.log(true)
+            //segno il giorno in rosso
             $(this).addClass("red");
+
+            //aggiungo il nome della festività
             var calendarDay = $(this).text();
             calendarDay += " " + arr[i].name;
             $(this).text(calendarDay);
