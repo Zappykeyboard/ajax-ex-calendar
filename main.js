@@ -10,7 +10,7 @@ $(document).ready(function () {
   var currentMonth = defaultMonth;
 
   //url API
-  var APIFestivita = "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=";
+  var APIFestivita = "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0";
 
   //template dei giorni
   var hDaysHTML = $("#day-template").html();
@@ -29,15 +29,14 @@ $(document).ready(function () {
 
     var yearMonth = "2018-" + gregorianMonth;
 
-
     $("#month-label").text(moment(yearMonth).format("MMMM YYYY"));
 
     for (var i = 1; i <= moment(yearMonth).daysInMonth(); i++) {
 
 
       context = {
-        day: moment(yearMonth + "-" + i).format("dddd D"),
-        data: moment(yearMonth + "-" + i).format("YYYY[-]MM[-]DD")
+        day: moment(yearMonth + "-" + i).format("dddd D"),//la data da stampare a schermo,
+        data: moment(yearMonth + "-" + i).format("YYYY[-]MM[-]DD")//la proprietà data-calendario
       }
 
       //nascondo la lista per motivi estetici, prima  di mostrare le festivita
@@ -50,7 +49,8 @@ $(document).ready(function () {
 
     //chiamo la api per segnare i giorni festivi
     $.ajax({
-      url: APIFestivita + month,
+      url: APIFestivita,
+      data: {"year": "2018", "month": month},
       method: "GET",
       success: function (data) {
 
