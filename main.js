@@ -10,7 +10,7 @@ $(document).ready(function () {
   var currentMonth = defaultMonth;
 
   //url API
-  var APIFestivita = "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0";
+  var APIFestivita = "https://flynn.boolean.careers/exercises/api/holidays";
 
   //template dei giorni
   var hDaysHTML = $("#day-template").html();
