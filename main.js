@@ -45,8 +45,8 @@ $(document).ready(function () {
 
       //inserisco i giorni in lista
       $("#days-list").append(hDaysTemplate(context));
-      
-    } 
+
+    }
 
     //chiamo la api per segnare i giorni festivi
     $.ajax({
@@ -78,7 +78,14 @@ $(document).ready(function () {
     if (arr) {
       for (var i = 0; i < arr.length; i++) {
 
-        $(".day").each(function () {
+        var day = $(".day[data-calendario=" + arr[i].date + "]");
+
+        day.addClass("red");
+        var calendarDay = day.text();
+        calendarDay += " " + arr[i].name;
+        day.text(calendarDay);
+
+        /* $(".day").each(function () {
 
           if ($(this).attr("data-calendario") === arr[i].date) {
             //segno il giorno in rosso
@@ -90,7 +97,7 @@ $(document).ready(function () {
             $(this).text(calendarDay);
           }
 
-        });
+        }); */
       }
     }
 
