@@ -29,7 +29,10 @@ $(document).ready(function () {
 
     var yearMonth = "2018-" + gregorianMonth;
 
+    //Imposto il mese sull'h1
     $("#month-label").text(moment(yearMonth).format("MMMM YYYY"));
+
+    
 
     for (var i = 1; i <= moment(yearMonth).daysInMonth(); i++) {
 
